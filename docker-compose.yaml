@@ -18,7 +18,7 @@ services:
   db:
     image: mariadb:10.8.2
     container_name: mariadb_docker
-    restart: always
+    restart: on-failure
     volumes:
       - db-data:/var/lib/mysql
     environment:
@@ -28,10 +28,12 @@ services:
       MYSQL_DATABASE: symfony
     networks:
       - acpSymfony
+    ports:
+      - "3306:3306"
 
   phpmyadmin:
     image: phpmyadmin
-    restart: always
+    restart: on-failure
     ports:
       - "8001:80"
     depends_on:
@@ -49,7 +51,7 @@ services:
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     ports:
       - "8081:80"
-    restart: always
+    restart: on-failure
     networks:
       - acpSymfony
 
