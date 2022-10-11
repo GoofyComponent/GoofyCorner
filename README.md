@@ -14,22 +14,26 @@ Ride wife, life good. Wife fight back! Kill wife! Wife gone. Think about wife. R
 
 5- npm install
 
-6- Vider son dossier migration sauf le gitignore et faire une migration:  - symfony console make:migration
+6- Vider son dossier migration sauf le gitignore et faire une migration:  
 
-                                                                          - symfony console doctrine:migrations:migrate 
+- symfony console make:migration
+
+- symfony console doctrine:migrations:migrate 
                                                                           
                                                                           
- WARNING : Si vous avez une erreur à l'étape six : - vider le dossier migration si pas vide 
+ WARNING : Si vous avez une erreur à l'étape six : 
+                                  
+- vider le dossier migration si pas vide 
 
-                                                   - symfony console doctrine:database:drop --force
+- symfony console doctrine:database:drop --force
 
-                                                   - symfony console doctrine:database:create
+- symfony console doctrine:database:create
 
-                                                   - symfony console make:migration
+- symfony console make:migration
 
-                                                   - symfony console doctrine:migrations:migrate 
+- symfony console doctrine:migrations:migrate 
 
-                                                   - Appeler à l'aide à Adrien si la réponse n'est pas sur Google
+- Appeler à l'aide à Adrien si la réponse n'est pas sur Google
 
                                                    
 7- Load les fixtures : symfony console doctrine:fixtures:load
