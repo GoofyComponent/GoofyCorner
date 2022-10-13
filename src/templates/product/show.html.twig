@@ -25,7 +25,7 @@
 		{# {{dump(product)}} #}
 
 		<div id="ProductInfos" class="w-5/12 flex flex-col">
-			<div id="ProductDescription">
+			<div id="ProductDescription" class="">
 				<div class="flex justify-between py-12 ">
 
 					<h1 class="text-3xl font-bold w-2/3">{{product.title}}</h1>
@@ -33,10 +33,22 @@
 						€</p>
 				</div>
 
-				<p class="text-medium w-11/12">{{product.description}}</p>
+				<p class="text-medium w-11/12 overflow-auto min-h-[60%] max-h-[75%] p-2">{{product.description}}</p>
+
 			</div>
 
-			<div id="ProductSeller" class="flex flex-col justify-between">{{dump(seller)}}</div>
+			<div
+				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg">
+				{# {{dump(seller)}} #}
+				<div class="my-auto">
+					<img src="https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg{# {{seller.avatar}} #}" alt="Avatar de {{seller}}" class="w-20 h-20 rounded-full mx-auto"/>
+				</div>
+				<div>
+					<h2 class="text-2xl font-bold">Vendeur</h2>
+					<p class="text-medium">Biroute</p>
+					<p class="text-medium">{{seller}}</p>
+					<p class="text-medium">Rating</p>
+				</div>
+			</div>
 		</session>
-
 	{% endblock %}

@@ -58,13 +58,14 @@ class ProductController extends AbstractController
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
-        #Retreive all data about the user who posted the product
-        $user = $entityManager->getRepository(User::class)->find($post->getUser()->getId());
-        
         if(!$post) {
             return $this->redirectToRoute('app_404');
         }
 
+        #Retreive all data about the user who posted the product
+        $user = $post->getUser();
+        $user = $user->getEmail();
+        
         return $this->render('product/show.html.twig', [
             'id' => $id,
             'product' => $post,
