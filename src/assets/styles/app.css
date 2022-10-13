@@ -1,7 +1,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-    background-color: lightgray;
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+html {
+  font-family: "Open Sans", sans-serif;
 }
 
+#symfoForm input[type="text"],
+#symfoForm input[type="email"],
+#symfoForm input[type="tel"],
+#symfoForm input[type="number"],
+#symfoForm input[type="password"],
+#symfoForm textarea,
+#symfoForm select {
+  background-color: #f2f2f2;
+  border-radius: 15em;
+  padding: 0.5em 1em;
+}
+
+#symfoForm label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 2em;
+}
+
+#symfoForm input[type="submit"] {
+  background-color: #f2f2f2;
+  border-radius: 15em;
+  padding: 0.5em 1em;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 2em;
+}
+
+#symfoForm input[type="submit"]:hover {
+  background-color: #e2e2e2;
+}
+
+#symfoForm button {
+  background-color: #d96236;
+  color: white;
+  border-radius: 15em;
+  padding: 0.5em 1em;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 2em;
+}
+
+#symfoForm button:hover {
+  background-color: #f2a488;
+}

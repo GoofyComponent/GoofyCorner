@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+
+{% block title %}Créer une annonce !
+{% endblock %}
 
 {% block body %}
-    {{form(createProductForm)}}
+	{{component('header')}}
+	<session id="symfoForm" class="p-5 w-5/12">
+		<h1 class=" text-3xl font-bold">Infos générales</h1>
+		{{form_start(createProductForm)}}
+		{{form_widget(createProductForm)}}
+		{{form_end(createProductForm)}}
+	</session>
+
+
 {% endblock %}

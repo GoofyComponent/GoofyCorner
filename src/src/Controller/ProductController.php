@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\PostType;
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -57,6 +58,9 @@ class ProductController extends AbstractController
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
+        #Retreive all data about the user who posted the product
+        $user = $entityManager->getRepository(User::class)->find($post->getUser()->getId());
+        
         if(!$post) {
             return $this->redirectToRoute('app_404');
         }
@@ -64,14 +68,8 @@ class ProductController extends AbstractController
         return $this->render('product/show.html.twig', [
             'id' => $id,
             'product' => $post,
+            'seller' => $user,
         ]);
     }
 
-    #[Route('/product', name: 'app_product')]
-    public function index(): Response
-    {
-        return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
-        ]);
-    }
 }

@@ -1,17 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}
+	{{product.title}}
+	au meilleur prix ? C'est ca GoofyCorner
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	{{component('header')}}
 
-<div class="example-wrapper">
-    <h1>Hello {{ id }}!</h1>
-    
-        {{ dump(product) }}
-        {{product.title}}
-</div>
-{% endblock %}
+	<article class="text-primary/60 px-10 py-2 mx-auto">
+		Road > to > Article
+	</article>
+	<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between">
+		<div id="ProductImage" class="w-5/12 flex flex-col items-center">
+			<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="mainImage w-8/12 rounded-lg my-4 mx-auto border-rounded"/>
+
+
+			<div class="max-h-fit flex justify-between">
+				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
+				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
+				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
+			</div>
+		</div>
+		{# {{dump(product)}} #}
+
+		<div id="ProductInfos" class="w-5/12 flex flex-col">
+			<div id="ProductDescription">
+				<div class="flex justify-between py-12 ">
+
+					<h1 class="text-3xl font-bold w-2/3">{{product.title}}</h1>
+					<p class="text-4xl font-bold text-primary">{{product.price}}
+						€</p>
+				</div>
+
+				<p class="text-medium w-11/12">{{product.description}}</p>
+			</div>
+
+			<div id="ProductSeller" class="flex flex-col justify-between">{{dump(seller)}}</div>
+		</session>
+
+	{% endblock %}
