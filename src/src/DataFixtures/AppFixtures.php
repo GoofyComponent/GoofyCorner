@@ -20,6 +20,14 @@ class AppFixtures extends Fixture
         PostFactory::createMany(30);
         QuestionFactory::createMany(30);
         VoteFactory::createMany(100);
+
+        // nous allons créer un utilisateur admin
+        UserFactory::new()->create([
+            'email' => 'admin@admin.com',
+            'roles' => ['ROLE_ADMIN'],
+            'password' => 'admin',
+        ]);
+
         $manager->flush();
     }
 }
