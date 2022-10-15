@@ -5,10 +5,8 @@
 {% block body %}
 
 <div >
-    <h1>Créer un tag</h1>
-   {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.name) }}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+    <a href="{{ path('app_tag_create') }}">Créer un tag</a>
+    <br>
+    <a href="{{ path('app_tag_all') }}">Liste des tags</a>
 </div>
 {% endblock %}
