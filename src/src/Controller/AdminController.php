@@ -20,9 +20,6 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
         ]);
     }
-
-
-
     #[Route('/admin/create/tag', name: 'app_tag_create')]
     public function createTag(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -41,8 +38,6 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-
 
     #[Route('/admin/all/tag', name: 'app_tag_all')]
     public function allTag(EntityManagerInterface $entityManager): Response
@@ -72,7 +67,6 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/admin/delete/tag', name: 'app_tag_delete', methods: ['GET'])]
     public function deleteTag(Request $request, EntityManagerInterface $entityManager): Response
