@@ -18,7 +18,11 @@
 		{% endblock %}
 	</head>
 	<body>
-		{{component('header')}}
+		{% if not_header is defined %}
+			{# YA PAS DE UNLESS LA TWIG ECLATEE #}
+		{% else %}
+			{{component('header')}}
+		{% endif %}
 		{% block body %}{% endblock %}
 	</body>
-</html>
+</html></body></html>

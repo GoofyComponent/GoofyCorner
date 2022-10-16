@@ -1,19 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
+{% block title %}Connexion
 {% endblock %}
 
 {% block body %}
-	<section id="register" class="bg-white h-screen">
+	<section id="login" class="bg-white h-screen">
 
 		<form method="post" class="w-3/12 mx-auto mt-[12%] flex self-center flex-col bg-white border-2 rounded-lg p-6">
 			<a href="/" class="mx-auto py-4">
 				<span class="font-bold text-4xl text-primary mx-auto">GoofyCorner</span>
 			</a>
-
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
 
 			{% if app.user %}
 				<div class="mb-3">
@@ -23,7 +19,7 @@
 				</div>
 			{% endif %}
 
-			<h1 class="mx-auto font-bold opacity-40 text-2xl">INSCRIPTION</h1>
+			<h1 class="mx-auto font-bold opacity-40 text-2xl">CONNEXION</h1>
 			<label for="inputEmail" class="font-bold opacity-40 text-lg">Email</label>
 			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-secondary transition-all" autocomplete="email" required autofocus>
 
@@ -33,22 +29,21 @@
 
 
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-			{# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.#}
-			{# See https://symfony.com/doc/current/security/remember_me.html #}
 
-			{# <div class="checkbox mb-3"> #}
-			{# <label> #}
-			{# <input type="checkbox" name="_remember_me"> Remember me #}
-			{# </label> #}
-			{# </div>  #}
-
-				<div class="flex justify-between "> <div class="mb-0 mt-auto">
-
-					<a href="" class="text-sm transition-all hover:border-b-2 hover:text-secondary border-secondary">
-						Vous avez déja un compte ? Se connecter</a>
+			{% if error %}
+				<div class="text-red-700 font-bold py-4 w-full">
+					{{ error.messageKey|trans(error.messageData, 'security') }}
 				</div>
-				<button class="rounded-full bg-secondary w-4/12 p-2 mx-auto" type="submit">
-					S'inscrire
+			{% endif %}
+
+			<div class="flex justify-between ">
+				<div class="mb-0 mt-auto">
+					<a href="{{ path('app_register') }}" class="text-sm transition-all hover:border-b-2 hover:text-secondary border-secondary">
+						Vous n'avez pas de compte ? S'inscrire</a>
+				</div>
+				<button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
+
+					Se connecter
 				</button>
 			</div>
 		</form>

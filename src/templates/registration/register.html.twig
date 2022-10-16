@@ -4,24 +4,56 @@
 {% endblock %}
 
 {% block body %}
-	<section id="register" class="w-5/12 bg-lightgray">
-		{% for flash_error in app.flashes('verify_email_error') %}
-			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-		{% endfor %}
-
-		<h1>Register</h1>
+	<section id="register" class="bg-white h-screen">
 
 		{{ form_start(registrationForm) }}
-		{{ form_row(registrationForm.email) }}
-		{{ form_row(registrationForm.firstname) }}
-		{{ form_row(registrationForm.lastname) }}
-		{{ form_row(registrationForm.adresse) }}
-		{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-		{{ form_row(registrationForm.agreeTerms) }}
+		<a href="/" class="mx-auto py-4">
+			<span class="font-bold text-4xl text-primary mx-auto">GoofyCorner</span>
+		</a>
 
-		<button type="submit" class="btn">Register</button>
+		<h1 class="mx-auto font-bold opacity-40 text-2xl">INSCRIPTION</h1>
+		{{ form_row(registrationForm.email,{
+			label: 'Mail'
+		}) }}
+
+		{{ form_row(registrationForm.firstname,{
+			label: 'Prénom'
+		}) }}
+
+		{{ form_row(registrationForm.lastname,{
+			label: 'Nom de famille'
+		}) }}
+
+		{{ form_row(registrationForm.adresse,{
+			label: 'Adresse'
+		}) }}
+
+		{{ form_row(registrationForm.plainPassword, {
+					label: 'Mot de passe'
+		}) }}
+
+		{{ form_row(registrationForm.agreeTerms, {
+					label: 'J\'accepte les conditions d\'utilisation',
+		}) }}
+
+
+		{% for flash_error in app.flashes('verify_email_error') %}
+			<div class="text-red-700 font-bold py-4 w-full">
+				{{ flash_error }}
+			</div>
+		{% endfor %}
+
+		<div class="flex justify-between ">
+			<div class="mb-0 mt-auto">
+				<a href="{{ path('app_register') }}" class="text-sm transition-all hover:border-b-2 hover:text-secondary border-secondary">
+					Vous avez déja un compte ? Se connecter</a>
+			</div>
+			<button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
+
+				S'inscrire
+			</button>
+		</div>
+		{# </form> #}
 		{{ form_end(registrationForm) }}
 
 	</section>
