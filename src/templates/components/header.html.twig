@@ -31,13 +31,19 @@
 			{% if app.user %}
 				<li class="relative inline-block">
 					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_admin') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
+						<a href="{{ path('app_admin') }}" class="font-medium flex justify-between transition-all hover:underline hover:text-primary">
+
 						{% else %}
-							<a href="">
+							<a href="" class="transition-all font-medium flex justify-between hover:underline hover:text-primary">
+
 							{% endif %}
-							<svg class="h-9 lg:h-10 p-2 text-gray-500" aria-hidden="true" focusable="false" data-prefix="far" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" class="svg-inline--fa fa-user fa-w-14 fa-9x">
+							<svg class="h-9 lg:h-10 p-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512" class="svg-inline--fa fa-user fa-w-14 fa-9x">
 								<path fill="currentColor" d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"></path>
 							</svg>
+							<span class="m-auto">Bonjour,
+								{{ app.user.firstname }}
+								{{ app.user.lastname|length > 7 ? app.user.lastname|slice(0, 7) ~ '...' : app.user.lastname }}
+							</span>
 						</a>
 					</li>
 				{% else %}
