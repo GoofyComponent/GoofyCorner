@@ -9,10 +9,10 @@
 	<article class="text-primary/60 px-10 py-2 mx-auto">
 		Road > to > Article
 	</article>
-	<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between">
+	<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
+
 		<div id="ProductImage" class="w-5/12 flex flex-col items-center">
 			<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="mainImage w-8/12 rounded-lg my-4 mx-auto border-rounded"/>
-
 
 			<div class="max-h-fit flex justify-between">
 				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
@@ -22,31 +22,35 @@
 		</div>
 		{# {{dump(product)}} #}
 
-		<div id="ProductInfos" class="w-5/12 flex flex-col">
-			<div id="ProductDescription" class="">
+		<div id="ProductInfos" class="w-5/12 flex flex-col h-full">
+			<div id="ProductDescription" class="h-5/6">
 				<div class="flex justify-between py-12 ">
-
 					<h1 class="text-3xl font-bold w-2/3">{{product.title}}</h1>
 					<p class="text-4xl font-bold text-primary">{{product.price}}
 						€</p>
 				</div>
 
-				<p class="text-medium w-11/12 overflow-auto min-h-[60%] max-h-[75%] p-2">{{product.description}}</p>
+				<p class="text-medium w-11/12 overflow-auto p-2 h-[25vh]">{{product.description}}</p>
 
+				<p class="text-right w-full p-2 font-bold">
+					{{created_at == modified_at ? 'Ajouté le' : 'Modifié le'}}
+					{{modified_at}}
+				</p>
 			</div>
 
 			<div
-				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg">
+				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg mx-auto">
 				{# {{dump(seller)}} #}
 				<div class="my-auto">
-					<img src="https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg{# {{seller.avatar}} #}" alt="Avatar de {{seller}}" class="w-20 h-20 rounded-full mx-auto"/>
+					<img src="https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg{# {{seller.avatar}} #}" alt="Avatar de {# {{seller}} #}" class="w-20 h-20 rounded-full mx-auto"/>
 				</div>
 				<div>
-					<h2 class="text-2xl font-bold">Vendeur</h2>
-					<p class="text-medium">Biroute</p>
-					<p class="text-medium">{{seller}}</p>
+					<h2 class="text-2xl font-bold">Le vendeur :</h2>
+					<p class="text-medium">{{seller.firstName}}</p>
+					<p class="text-medium">{{seller.email}}</p>
 					<p class="text-medium">Rating</p>
 				</div>
 			</div>
-		</session>
-	{% endblock %}
+		</div>
+	</session>
+{% endblock %}

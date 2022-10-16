@@ -63,6 +63,8 @@ class ProductController extends AbstractController
     {
 
         $post = $entityManager->getRepository(Post::class)->find($id);
+        $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
+        $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
 
         if(!$post) {
             return $this->redirectToRoute('app_404');
@@ -70,12 +72,18 @@ class ProductController extends AbstractController
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
+        $userFirstName = $user->getFirstName();
         $user = $user->getEmail();
         
         return $this->render('product/show.html.twig', [
             'id' => $id,
             'product' => $post,
-            'seller' => $user,
+            'created_at' => $postCreation,
+            'modified_at' => $postModified,
+            'seller' => [
+                'firstName' => $userFirstName,
+                'email' => $user
+            ],
         ]);
     }
 
