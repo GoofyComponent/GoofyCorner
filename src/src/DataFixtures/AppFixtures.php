@@ -24,6 +24,9 @@ class AppFixtures extends Fixture
         // nous allons créer un utilisateur admin
         UserFactory::new()->create([
             'email' => 'admin@admin.com',
+            'lastname' => 'admin',
+            'firstname' => 'admin',
+            'adresse' => 'NETWORK',
             'roles' => ['ROLE_ADMIN'],
             'password' => 'admin',
         ]);

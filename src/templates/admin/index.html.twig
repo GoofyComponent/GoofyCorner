@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+
+<div >
+    <a href="{{ path('app_tag_create') }}">Créer un tag</a>
+    <br>
+    <a href="{{ path('app_tag_all') }}">Liste des tags</a>
+</div>
+{% endblock %}
