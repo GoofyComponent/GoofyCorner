@@ -19,6 +19,12 @@ class ProductController extends AbstractController
     #[Route('/product/new', name: 'app_product_new')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        #Check if user is logged in
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
