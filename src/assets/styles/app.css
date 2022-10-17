@@ -4,8 +4,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
-html {
+html,
+body {
   font-family: "Open Sans", sans-serif;
+  min-height: 100vh;
 }
 
 #symfoForm input[type="text"],
@@ -51,4 +53,67 @@ html {
 
 #symfoForm button:hover {
   background-color: #f2a488;
+}
+
+#register > form {
+  width: 25%;
+  margin-top: 8%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  background-color: white;
+  border-width: 2px;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+#register > form label {
+  font-weight: 700;
+  opacity: 0.4;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+#register > form input[type="text"],
+#register > form input[type="email"],
+#register > form input[type="tel"],
+#register > form input[type="number"],
+#register > form input[type="password"] {
+  display: block;
+  appearance: none;
+  width: 100%;
+  color: rgb(55 65 81);
+  background-color: rgb(229 231 235);
+  border-width: 1px;
+  border-color: rgb(229 231 235);
+  border-radius: 0.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+#register > form input[type="text"]:focus,
+#register > form input[type="email"]:focus,
+#register > form input[type="tel"]:focus,
+#register > form input[type="number"]:focus,
+#register > form input[type="password"]:focus {
+  outline: none;
+  background-color: white;
+  border-color: #f2a488;
+}
+
+#register > form > div:nth-child(8) > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }

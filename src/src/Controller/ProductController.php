@@ -19,6 +19,12 @@ class ProductController extends AbstractController
     #[Route('/product/new', name: 'app_product_new')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        #Check if user is logged in
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
@@ -54,6 +60,8 @@ class ProductController extends AbstractController
     {
 
         $post = $entityManager->getRepository(Post::class)->find($id);
+        $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
+        $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
 
         if (!$post) {
             return $this->redirectToRoute('app_404');
@@ -61,12 +69,18 @@ class ProductController extends AbstractController
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
+        $userFirstName = $user->getFirstName();
         $user = $user->getEmail();
 
         return $this->render('product/show.html.twig', [
             'id' => $id,
             'product' => $post,
-            'seller' => $user,
+            'created_at' => $postCreation,
+            'modified_at' => $postModified,
+            'seller' => [
+                'firstName' => $userFirstName,
+                'email' => $user
+            ],
         ]);
     }
 }
