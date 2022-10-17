@@ -49,6 +49,17 @@ final class PostFactory extends ModelFactory
             'created_at' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'modified_at' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'user' => UserFactory::random(),
+            // images est un tableau de 1 à 5 avec des images généré aléatoirement
+            'images' => self::faker()->randomElements(
+                [
+                    self::faker()->imageUrl(640, 480, 'cats'),
+                    self::faker()->imageUrl(640, 480, 'dogs'),
+                    self::faker()->imageUrl(640, 480, 'transport'),
+                    self::faker()->imageUrl(640, 480, 'food'),
+                    self::faker()->imageUrl(640, 480, 'people'),
+                ],
+                self::faker()->numberBetween(1, 5)
+            ),
         ];
     }
 

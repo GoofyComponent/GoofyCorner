@@ -25,7 +25,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             #Add the createdTime to the post
             $post->setCreatedAt(new \DateTimeImmutable());
@@ -37,19 +37,16 @@ class ProductController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_product_show', ['id' => $post->getId()]);
-        }
-        elseif ($form->isSubmitted() && !$form->isValid()) {
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('error', 'Please fill in all the fields');
+        } else {
+            return $this->render(
+                'product/create.html.twig',
+                [
+                    'createProductForm' => $form->createView(),
+                ]
+            );
         }
-        else {
-            return $this->render('product/create.html.twig',
-            [
-                'createProductForm' => $form->createView(),
-            ]
-        );
-        }
-
-        
     }
 
     #[Route('/product/{id}', name: 'app_product_show')]
@@ -58,19 +55,18 @@ class ProductController extends AbstractController
 
         $post = $entityManager->getRepository(Post::class)->find($id);
 
-        if(!$post) {
+        if (!$post) {
             return $this->redirectToRoute('app_404');
         }
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
         $user = $user->getEmail();
-        
+
         return $this->render('product/show.html.twig', [
             'id' => $id,
             'product' => $post,
             'seller' => $user,
         ]);
     }
-
 }
