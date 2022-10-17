@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+
 class ProductController extends AbstractController
 {
 
@@ -38,6 +42,19 @@ class ProductController extends AbstractController
             $post->setModifiedAt(new \DateTimeImmutable());
             $post->setUser($this->getUser());
 
+            $images = $form->get('images')->getData();
+            $imagesArray = [];
+            foreach ($images as $image) {
+                $file = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $file
+                );
+                // on ajoute au tableau des images setImages
+                $imagesArray[] = $file;
+            }
+            $post->setImages($imagesArray);
+
             $entityManager = $doctrine->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
@@ -60,15 +77,18 @@ class ProductController extends AbstractController
     {
 
         $post = $entityManager->getRepository(Post::class)->find($id);
-        $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
-        $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
-
         if (!$post) {
             return $this->redirectToRoute('app_404');
         }
+        $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
+        $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
+
+
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
+        $userImage = $user->getImage();
+        $username = $user->getUsername();
         $userFirstName = $user->getFirstName();
         $user = $user->getEmail();
 
@@ -79,7 +99,9 @@ class ProductController extends AbstractController
             'modified_at' => $postModified,
             'seller' => [
                 'firstName' => $userFirstName,
-                'email' => $user
+                'email' => $user,
+                'image' => $userImage,
+                'username' => $username,
             ],
         ]);
     }
