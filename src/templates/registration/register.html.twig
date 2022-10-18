@@ -20,6 +20,10 @@
 			label: 'Prénom'
 		}) }}
 
+		{{ form_row(registrationForm.username, {
+			label: 'Pseudo'
+		})}}
+
 		{{ form_row(registrationForm.lastname,{
 			label: 'Nom de famille'
 		}) }}
@@ -45,11 +49,10 @@
 
 		<div class="flex justify-between ">
 			<div class="mb-0 mt-auto">
-				<a href="{{ path('app_register') }}" class="text-sm transition-all hover:border-b-2 hover:text-secondary border-secondary">
+				<a href="{{ path('app_login') }}" class="text-sm transition-all hover:border-b-2 hover:text-secondary border-secondary">
 					Vous avez déja un compte ? Se connecter</a>
 			</div>
 			<button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
-
 				S'inscrire
 			</button>
 		</div>
