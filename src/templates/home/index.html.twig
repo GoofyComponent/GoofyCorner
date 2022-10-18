@@ -1,28 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}GoofyCorner
 {% endblock %}
 
 {% block body %}
-
-	<div class="example-wrapper">
-		<h1 class="text-3xl font-bold underline">
-			Hello
-			{{ controller_name }}! ✅
+	<div class="mt-10 flex self-center">
+		<h1 class="mx-auto font-bold text-2xl">
+			Bienvenue sur GoofyCorner!
 		</h1>
+	</div>
+		<!-- Recherche -->
+	<div class="w-1/2 mx-auto mt-[2%] flex self-center flex-col bg-grey border-1 rounded-lg p-6 shadow-lg">
+		<div class="w-3/4 flex self-center bg-grey border-2 rounded-lg xl:max-w-lg 2xl:max-w-2xl bg-gray-100 hidden xl:flex items-center">
+			<select class="bg-transparent uppercase font-bold text-sm p-4 mr-4" name="" id="">
+				<option>Toutes catégories</option>
+				<option>Véhicules</option>
+				<option>Immobilier</option>
+				<option>Mode</option>
+				<option>Maison</option>
+				<option>Multimédia</option>
+				<option>Loisirs</option>
+				<option>Animaux</option>
+				<option>Services</option>
+			</select>
+			<input class="border-l border-gray-300 bg-transparent font-semibold text-sm pl-4" type="text" placeholder="Que recherchez-vous ?">
+				<svg class="ml-auto h-5 px-4 text-gray-500" aria-hidden="true" focusable="false" data-prefix="far" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" class="svg-inline--fa fa-search fa-w-16 fa-9x">
+					<path fill="currentColor" d="M508.5 468.9L387.1 347.5c-2.3-2.3-5.3-3.5-8.5-3.5h-13.2c31.5-36.5 50.6-84 50.6-136C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c52 0 99.5-19.1 136-50.6v13.2c0 3.2 1.3 6.2 3.5 8.5l121.4 121.4c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17zM208 368c-88.4 0-160-71.6-160-160S119.6 48 208 48s160 71.6 160 160-71.6 160-160 160z"></path>
+				</svg>
+		</div>
+			<button class="rounded bg-blue-500 text-white font-bold py-2 px-4 mx-auto mt-[2%] transition-all hover:bg-blue-700">
+				<a href="{{ path('app_home') }}">Rechercher</a>
+			</button>
+	</div>
+	<!-- Créer annonce -->
+	<div class="mt-[1%] flex self-center">
+		<button class="rounded bg-orange-500 text-white font-bold py-2 px-4 mx-auto mt-[1%] transition-all hover:bg-orange-700">
+			<a href="{{ path('app_product_new') }}">Déposer une annonce</a>
+		</button>
+	</div>
+	<!-- Catégories -->
+	<div class="w-1/2 mx-auto mt-[2%] flex self-center flex-col bg-grey border-1 rounded-lg p-6 shadow-lg">
+		<span class="mx-auto font-bold text-lg text-gray-700">
+			Catégories
+		</span>
+		<!-- Carrousel d'image -->
+		<script>
+			const moveImage = document.querySelector('.move-image');
+			const carousel = document.querySelectorAll('.carousel-image');
+			let incrementScroll = 0;
 
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>
-					<a href="{{ '/Users/adrien/Documents/GitHub/GoofyCorner/src/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a>
-				</code>
-			</li>
-			<li>Your template at
-				<code>
-					<a href="{{ '/Users/adrien/Documents/GitHub/GoofyCorner/src/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
-				</code>
-			</li>
-		</ul>
+			moveImage.addEventListener('click', () => {
+				moveImage.style.transform = 'scale(0.8)';
+				moveImage.style.transition = 'transform 0.5s ease-in-out';
+
+				const width = carousel[0].offsetWidth;
+				incrementScroll += parseInt(width);
+
+				const carouselWidth = carousel[0].offsetWidth * carousel.length;
+
+				if (incrementScroll > carouselWidth) {
+				incrementScroll = 0;
+				}
+
+				carousel.forEach(image => {
+					image.style.transform = 'translateX(-' + incrementScroll + 'px)';
+					image.style.transition = 'transform 0.5s ease-in-out';
+				});
+				
+				setTimeout(() => {
+					moveImage.style.transform = 'scale(1)';
+				}, 500); 
+			});
+    	</script>
+
+			<div class="flex justify-around">
+				<div class="mt-[1%] flex justify-between max-w-[90%] overflow-hidden">
+					<img src="http://ekladata.com/Xzm5kR1pIzY7enJ1QgLQdFAjUEs.png"/>
+					<img src="http://ekladata.com/ukz4_o5-iNFsI4t-AjYyzJXUCFw.png"/>
+					<img src="http://ekladata.com/Ont9xczMxS5wK3jAx0wTRb-moHI.png"/>
+					<img src="http://ekladata.com/6qIWWqj9PqTu3jlNU6VuuwpISUc.png"/>
+					<img src="http://ekladata.com/elis8I-mahyz0LqEhUL0QRknAvc.png"/>
+					<img src="http://ekladata.com/POl51TxYxtGjqptF38tVYDeNv8E.png"/>
+					<img src="http://ekladata.com/rz_ZtE0ngcdX0t3rzGD7104nGC8.png"/>
+					<img src="http://ekladata.com/-DCzzwCyd98H8zcdd3BGj3ABUxU.png"/>
+				</div>
+
+				<div class="move-image my-auto">
+					<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+				</div>
+
+		<!--<div id="option" class="carousel slide" data-ride="carousel">
+			<ul class="carousel-indicators">
+				<li data-target="#option" data-slide-to="0" class="active"></li>
+				<li data-target="#option" data-slide-to="1"></li>
+				<li data-target="#option" data-slide-to="2"></li>
+				<li data-target="#option" data-slide-to="3"></li>
+				<li data-target="#option" data-slide-to="4"></li>
+				<li data-target="#option" data-slide-to="5"></li>
+				<li data-target="#option" data-slide-to="6"></li>
+				<li data-target="#option" data-slide-to="7"></li>
+			</ul>
+			<div class=carousel-inner">
+				<div class="carousel-item active">
+					<img src="http://ekladata.com/Xzm5kR1pIzY7enJ1QgLQdFAjUEs.png" alt="Véhicules" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Véhicules</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/ukz4_o5-iNFsI4t-AjYyzJXUCFw.png" alt="Immobilier" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Immobilier</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/Ont9xczMxS5wK3jAx0wTRb-moHI.png" alt="Mode" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Mode</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/6qIWWqj9PqTu3jlNU6VuuwpISUc.png" alt="Maison" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Maison</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/elis8I-mahyz0LqEhUL0QRknAvc.png" alt="Multimédia" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Multimédia</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/POl51TxYxtGjqptF38tVYDeNv8E.png" alt="Loisirs" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Loisirs</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/rz_ZtE0ngcdX0t3rzGD7104nGC8.png" alt="Animaux" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Animaux</h3>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<img src="http://ekladata.com/-DCzzwCyd98H8zcdd3BGj3ABUxU.png" alt="Services" width="225" height="225">
+					<div class="carousel-caption">
+						<h3>Services</h3>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#option" data-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</a>
+			<a class="carousel-control-next" href="#option" data-slide="next">
+				<span class="carousel-control-next-icon"></span>
+			</a>
+		</div>-->
 	</div>
 {% endblock %}
