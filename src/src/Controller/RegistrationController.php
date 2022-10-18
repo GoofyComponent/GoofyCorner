@@ -54,9 +54,15 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            
-            /* // do anything else you need here, like send an email
-            $this->authenticateUser($user); */
+            // do anything else you need here, like send an email
+            $this->get('security.token_storage')->setToken(
+                new UsernamePasswordToken(
+                    $user,
+                    null,
+                    'main',
+                    $user->getRoles()
+                )
+            );
 
             return $this->redirectToRoute('app_home');
         }
