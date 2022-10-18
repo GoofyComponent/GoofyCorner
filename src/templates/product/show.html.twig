@@ -12,17 +12,21 @@
 	<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
 
 		<div id="ProductImage" class="w-5/12 flex flex-col items-center">
-			<img src="{{ asset('uploads/images/' ~ product.images[0]) }}" alt="{{product.title}}" class="mainImage w-8/12 rounded-lg my-4 mx-auto border-rounded"/>
+			<img src="{{ asset('uploads/images/' ~ product.images[0]) }}" alt="{{product.title}}" class="object-cover mainImage w-8/12 rounded-lg my-4 mx-auto border-rounded"/>
 
-			<div class="max-h-fit flex justify-between">
-				{# <img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
-				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
-				<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/> #}
-				{# en évitant l'image 1 on boucle pour les afficher #}
-				{% for image in product.images|slice(1) %}
-					{# assets from public uploads images#}
-					<img src="{{ asset('uploads/images/' ~ image) }}" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
-				{% endfor %}
+			<div class="flex justify-around hover:cursor-pointer">
+				<div class="flex justify-between max-w-[90%] overflow-hidden">
+					{# <img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>
+						<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/>																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	<img src="https://img.leboncoin.fr/api/v1/lbcpb1/images/97/a2/f4/97a2f47d081206d094e22d2e5a7592aedd8b1d25.jpg?rule=ad-large" alt="{{product.title}}" class="miniImage w-[30%] rounded-lg"/> #}
+					{# en évitant l'image 1 on boucle pour les afficher #}
+						{% for image in product.images|slice(1) %}
+						{# assets from public uploads images#}
+					<img src="{{ asset('uploads/images/' ~ image) }}" alt="{{product.title}}" class="object-cover miniImage min-w-[30%] rounded-lg max-h-[7em] mx-8 caroussel-image"/> {% endfor %}
+				</div>
+
+				<div class="move-image my-auto">
+					<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+				</div>
 			</div>
 		</div>
 		{# {{dump(product)}} #}
@@ -46,21 +50,53 @@
 			<div
 				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg mx-auto">
 				{# {{dump(seller)}} #}
-				<div class="my-auto">
+				<div
+					class="object-cover my-auto">
 					{# si image null alors default image sinon on mets l'image #}
 					{% if seller.image != null %}
-						<img src="{{asset('uploads/images/' ~ seller.image)}}" alt="Avatar de {{seller.username}}" class="w-20 h-20 rounded-full mx-auto"/>
+						<img src="{{asset('uploads/images/' ~ seller.image)}}" alt="Avatar de {{seller.username}}" class="object-cover w-20 h-20 rounded-full mx-auto "/>
+
 					{% else %}
 						<img src='https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg' alt="Avatar de {{seller.username}}" class="w-20 h-20 rounded-full mx-auto"/>
 					{% endif %}
 				</div>
 				<div>
 					<h2 class="text-2xl font-bold">Le vendeur :</h2>
-					<p class="text-medium">{{seller.firstName}}</p>
+					<p class="text-medium">{{seller.username}}</p>
 					<p class="text-medium">{{seller.email}}</p>
 					<p class="text-medium">Rating</p>
 				</div>
 			</div>
 		</div>
 	</session>
+
+	<script>
+		const moveImage = document.querySelector('.move-image');
+		const caroussel = document.querySelectorAll('.caroussel-image');
+		let incrementScroll = 0;
+
+		moveImage.addEventListener('click', () => {
+			moveImage.style.transform = 'scale(0.8)';
+			moveImage.style.transition = 'transform 0.5s ease-in-out';
+
+			const width = caroussel[0].offsetWidth;
+			incrementScroll += parseInt(width);
+
+			const carousselWidth = caroussel[0].offsetWidth * caroussel.length;
+
+			if (incrementScroll > carousselWidth) {
+			incrementScroll = 0;
+			}
+
+			caroussel.forEach(image => {
+				image.style.transform = 'translateX(-' + incrementScroll + 'px)';
+				image.style.transition = 'transform 0.5s ease-in-out';
+			});
+			
+			setTimeout(() => {
+				moveImage.style.transform = 'scale(1)';
+			}, 500); 
+		});
+	</script>
+
 {% endblock %}
