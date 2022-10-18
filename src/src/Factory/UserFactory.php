@@ -45,6 +45,8 @@ final class UserFactory extends ModelFactory
             'lastname' => self::faker()->lastName,
             'firstname' => self::faker()->firstName,
             'adresse' => self::faker()->address,
+            'username' => self::faker()->userName,
+            'image' => self::faker()->randomElement(['chat1.jpg', 'chat2.jpg', 'chat3.jpg', 'chat4.jpg',]),
             'roles' => [],
             'password' => 'password',
             'isVerified' => true,

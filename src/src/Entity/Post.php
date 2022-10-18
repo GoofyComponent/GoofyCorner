@@ -44,6 +44,9 @@ class Post
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
     private Collection $Tag;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $Images = [];
+
 
 
     public function __construct()
@@ -210,6 +213,18 @@ class Post
     public function removeTag(Tag $tag): self
     {
         $this->Tag->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getImages(): array
+    {
+        return $this->Images;
+    }
+
+    public function setImages(array $Images): self
+    {
+        $this->Images = $Images;
 
         return $this;
     }
