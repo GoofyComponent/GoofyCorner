@@ -17,9 +17,6 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 # Ignore everything in the /upload/images directory except the chat*.jpg files
-/upload/images/*
-!/upload/images/chat*.jpg
+public/uploads/images/*
+!/public/uploads/images/chat*.jpg
 
-# Ignore everything in the /migrations directory except the .gitingore file
-/migrations/*
-!/migrations/.gitignore

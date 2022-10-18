@@ -1,1 +1,5 @@
 .env
+
+# Ignore everything in the /migrations directory except the .gitingore file
+/src/migrations/
+!/src/migrations/.gitignore
