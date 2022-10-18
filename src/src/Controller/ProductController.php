@@ -54,8 +54,6 @@ class ProductController extends AbstractController
             ]
         );
         }
-
-        
     }
 
     #[Route('/product/{id}', name: 'app_product_show')]
