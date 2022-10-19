@@ -105,4 +105,70 @@ class ProductController extends AbstractController
             ],
         ]);
     }
+
+    #[Route('/product/{id}/edit', name: 'app_product_edit')]
+    public function edit($id, Request $request, EntityManagerInterface $entityManager, ManagerRegistry $doctrine): Response
+    {
+        $post = $entityManager->getRepository(Post::class)->find($id);
+        
+        if (!$post) {
+            return $this->redirectToRoute('app_404');
+        }
+        
+        $oldImages = $post->getImages();
+
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        #Get the data of the product seller
+        $user = $post->getUser();
+        $userImage = $user->getImage();
+        $username = $user->getUsername();
+        $userFirstName = $user->getFirstName();
+        $user = $user->getEmail();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+
+            $post->setModifiedAt(new \DateTimeImmutable());
+
+            $imagesArray = $oldImages;
+
+            $images = $form->get('images')->getData();
+
+            foreach ($images as $image) {
+                $file = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $file
+                );
+                $imagesArray[] = $file;
+            }
+            
+            $post->setImages($imagesArray);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_product_show', ['id' => $post->getId()]);
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Please fill in all the fields');
+        } else {
+            return $this->render(
+                'product/edit.html.twig',
+                [
+                    'editProductForm' => $form->createView(),
+                    'product' => $post,
+                    'seller' => [
+                        'firstName' => $userFirstName,
+                        'email' => $user,
+                        'image' => $userImage,
+                        'username' => $username,
+                    ],
+                ]
+            );
+        }
+    }
 }

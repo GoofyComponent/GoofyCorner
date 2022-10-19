@@ -1,0 +1,153 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{product.title}}
+	au meilleur prix ? C'est ca GoofyCorner !
+{% endblock %}
+
+{% block body %}
+	<article class="text-primary/60 px-10 py-2 mx-auto">
+		Road > to > Article
+	</article>
+    {{ form_start(editProductForm) }}
+        <div id="bigPreviewBackground" class="fixed h-screen w-screen z-10 bg-black/50"></div>
+        <session id="imagesBigPreview" class="fixed m-auto z-50 w-3/12 md:inset-0 h-2/6 md:h-2/6">
+        </session>
+
+	    <session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
+            <div id="ProductImage" class="w-5/12 flex flex-col items-center my-auto">
+                <h1 class="text-3xl font-bold w-2/3">Vos images actuelles</h1>
+                <div class="flex justify-around hover:cursor-pointer my-9">
+                    <div class="flex justify-between max-w-[90%] overflow-hidden">
+                            {% for image in product.images %}
+                        <img src="{{ asset('uploads/images/' ~ image) }}" alt="{{product.title}}" class="object-cover miniImage min-w-[30%] rounded-lg max-h-[7em] mx-8 caroussel-image"/> {% endfor %}
+                    </div>
+
+                    {% if product.images|length > 2 %}
+                        <div class="move-image my-auto">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+                        </div>
+                    {% endif %}
+                </div>
+                {{ form_row(editProductForm.images,
+                    {'attr':{novalidate:'novalidate'},
+                    'label':false,
+                    'required':false,}
+                ) }}
+            </div>
+            {# {{dump(product)}} #}
+
+            <div id="ProductInfos" class="w-5/12 flex flex-col h-full">
+                <div id="ProductDescription" class="h-5/6">
+                    <div class="flex justify-between py-12 ">
+                        {{form_widget(editProductForm.title, 
+                            {'attr': {'class': 'text-3xl font-bold w-2/3 inputModif'}})
+                        }}
+                        <div class="text-4xl font-bold text-primary flex justify-center m-auto">
+                        {{form_widget(editProductForm.price, 
+                            {'attr': {'class': '!text-4xl !font-bold !text-primary !my-auto !ml-auto !mr-1 !p-0.5 !w-1/2 inputModif'}})
+                        }}€
+                       </div>
+                    </div>
+
+                    <div class="text-medium w-auto overflow-auto p-2 h-[25vh]">
+                        {{form_widget(editProductForm.description, 
+                            {'attr': {'class': '!min-h-[95%] inputModif'}})
+                        }}
+                    </div>
+
+                  {# send the form #}
+                    <div class="flex justify-end my-4">
+                        <button type="submit" class="bg-primary text-white text-2xl font-bold py-2 px-4 rounded">
+                            Confirmer
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg mx-auto">
+                    {# {{dump(seller)}} #}
+                    <div
+                        class="object-cover my-auto">
+                        {# si image null alors default image sinon on mets l'image #}
+                        {% if seller.image != null %}
+                            <img src="{{asset('uploads/images/' ~ seller.image)}}" alt="Avatar de {{seller.username}}" class="object-cover w-20 h-20 rounded-full mx-auto "/>
+
+                        {% else %}
+                            <img src='https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg' alt="Avatar de {{seller.username}}" class="w-20 h-20 rounded-full mx-auto"/>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold">Le vendeur :</h2>
+                        <p class="text-medium">{{seller.username}}</p>
+                        <p class="text-medium">{{seller.email}}</p>
+                    </div>
+                </div>
+            </div>
+	</session>
+    {{ form_end(editProductForm) }}
+
+    <script>
+        //Hide imageBigPreview at page load
+        document.getElementById('imagesBigPreview').style.display = 'none';
+        document.getElementById('bigPreviewBackground').style.display = 'none';
+
+        //Show imageBigPreview when click on image
+        let images = document.querySelectorAll('.miniImage');
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                document.getElementById('bigPreviewBackground').style.display = 'block';
+                document.getElementById('imagesBigPreview').style.display = 'block';
+                document.getElementById('imagesBigPreview').innerHTML = `<img src="${image.src}" alt="Image de ${image.alt}" class="cursor-pointer object-cover w-full h-full rounded-lg"/></br><h2 class='text-center'>Cliquez sur l'image pour la fermer</h2>`;
+
+                //Hide imageBigPreview when click on image
+                document.getElementById('imagesBigPreview').addEventListener('click', () => {
+                    document.getElementById('imagesBigPreview').style.display = 'none';
+                    document.getElementById('bigPreviewBackground').style.display = 'none';
+
+                    //Remove the listener to avoid multiple listener
+                    document.getElementById('imagesBigPreview').removeEventListener('click', () => {
+                        document.getElementById('imagesBigPreview').style.display = 'none';
+                        document.getElementById('bigPreviewBackground').style.display = 'none';
+                    });
+                })
+                
+            });
+        });
+        
+
+        //Hide post_Poster at page load
+        document.getElementById('post_Poster').style.display = 'none';
+
+        const moveImage = document.querySelector('.move-image');
+		const caroussel = document.querySelectorAll('.caroussel-image');
+		let incrementScroll = 0;
+
+		moveImage.addEventListener('click', () => {
+			moveImage.style.transform = 'scale(0.8)';
+			moveImage.style.transition = 'transform 0.5s ease-in-out';
+
+			const width = caroussel[0].offsetWidth;
+			incrementScroll += parseInt(width);
+
+			const carousselWidth = caroussel[0].offsetWidth * caroussel.length;
+
+			if (incrementScroll > carousselWidth) {
+			incrementScroll = 0;
+			}
+
+			caroussel.forEach(image => {
+				image.style.transform = 'translateX(-' + incrementScroll + 'px)';
+				image.style.transition = 'transform 0.5s ease-in-out';
+			});
+			
+			setTimeout(() => {
+				moveImage.style.transform = 'scale(1)';
+			}, 500); 
+		}); 
+
+    </script>
+{% endblock %}
+    
+    

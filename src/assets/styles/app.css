@@ -117,3 +117,29 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
+.inputModif {
+  display: block;
+  appearance: none;
+  width: 100%;
+  color: rgb(55 65 81);
+  background-color: rgb(229 231 235);
+  border-width: 1px;
+  border-color: rgb(229 231 235);
+  border-radius: 0.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.inputModif:focus {
+  outline: none;
+  background-color: white;
+  border-color: #f2a488;
+}
