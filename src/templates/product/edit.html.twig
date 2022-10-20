@@ -18,23 +18,27 @@
 	    <session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
             <div id="ProductImage" class="w-5/12 flex flex-col items-center my-auto">
                 <h1 class="text-3xl font-bold w-2/3">Vos images actuelles</h1>
+                <p>Vous pouvez supprimer une images en cliquant dessus puis sur supprimer,<br/>une fois cliquer sur le bouton supprimer l'action est irreversible.<br/>A noter qu'il est impossible de supprimer la premiere image</p>
                 <div class="flex justify-around hover:cursor-pointer my-9">
                     <div class="flex justify-between max-w-[90%] overflow-hidden">
                             {% for image in product.images %}
-                        <img src="{{ asset('uploads/images/' ~ image) }}" alt="{{product.title}}" class="object-cover miniImage min-w-[30%] rounded-lg max-h-[7em] mx-8 caroussel-image"/> {% endfor %}
+                        <img src="{{ asset('uploads/images/' ~ image) }}" id="{{loop.index - 1}}" alt="{{product.title}}" class="object-cover miniImage min-w-[30%] rounded-lg max-h-[7em] mx-8 caroussel-image"/> {% endfor %}
                     </div>
 
                     {% if product.images|length > 2 %}
                         <div class="move-image my-auto">
-                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"></svg>
                         </div>
                     {% endif %}
                 </div>
+
                 {{ form_row(editProductForm.images,
                     {'attr':{novalidate:'novalidate'},
                     'label':false,
                     'required':false,}
                 ) }}
+
+                <input type="hidden" id="removedImage" name="removedImage" value="[]" />
             </div>
             {# {{dump(product)}} #}
 
@@ -59,7 +63,7 @@
 
                   {# send the form #}
                     <div class="flex justify-end my-4">
-                        <button type="submit" class="bg-primary text-white text-2xl font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-primary text-white text-2xl font-bold py-2 px-4 rounded hover:bg-secondary transition-all">
                             Confirmer
                         </button>
                     </div>
@@ -99,7 +103,7 @@
             image.addEventListener('click', () => {
                 document.getElementById('bigPreviewBackground').style.display = 'block';
                 document.getElementById('imagesBigPreview').style.display = 'block';
-                document.getElementById('imagesBigPreview').innerHTML = `<img src="${image.src}" alt="Image de ${image.alt}" class="cursor-pointer object-cover w-full h-full rounded-lg"/></br><h2 class='text-center'>Cliquez sur l'image pour la fermer</h2>`;
+                document.getElementById('imagesBigPreview').innerHTML = `<p class="text-center bg-white rounded-lg p-4 my-2" onClick="addToRemove(${image.id})">SUPPRIMER L'IMAGE</p><img src="${image.src}" alt="Image de ${image.alt}" class="cursor-pointer object-cover w-full h-full rounded-lg"/></br><h2 class='text-center'>Cliquez sur l'image pour la fermer</h2>`;
 
                 //Hide imageBigPreview when click on image
                 document.getElementById('imagesBigPreview').addEventListener('click', () => {
@@ -115,8 +119,15 @@
                 
             });
         });
-        
 
+        //Add image to remove
+        function addToRemove(id) {
+            let imageToRemove = document.getElementById('removedImage').value;
+            imageToRemove = JSON.parse(imageToRemove);
+            imageToRemove.push(id);
+            document.getElementById('removedImage').value = JSON.stringify(imageToRemove);
+        }
+        
         //Hide post_Poster at page load
         document.getElementById('post_Poster').style.display = 'none';
 

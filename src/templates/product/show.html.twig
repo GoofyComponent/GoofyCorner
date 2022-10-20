@@ -17,7 +17,7 @@
 	<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
 
 		<div id="ProductImage" class="w-5/12 flex flex-col items-center">
-			<img src="{{ asset('uploads/images/' ~ product.images[0]) }}" alt="{{product.title}}" class="object-cover mainImage w-8/12 rounded-lg my-4 mx-auto border-rounded"/>
+			<img src="{{ asset('uploads/images/' ~ product.images[0]) }}" alt="{{product.title}}" class="object-cover mainImage w-8/12 rounded-lg my-auto mx-auto border-rounded"/>
 
 			<div class="flex justify-around hover:cursor-pointer">
 				<div class="flex justify-between max-w-[90%] overflow-hidden">
@@ -48,10 +48,20 @@
 
 				<p class="text-medium w-11/12 overflow-auto p-2 h-[25vh]">{{product.description}}</p>
 
-				<p class="text-right w-full p-2 font-bold">
-					{{created_at == modified_at ? 'Ajouté le' : 'Modifié le'}}
-					{{modified_at}}
-				</p>
+
+				<div class="flex justify-between">
+					{% if seller.isOwner %}
+					<div class="flex justify-end my-4">
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))}}/edit" class="bg-primary text-white text-2xl font-bold py-2 px-4 rounded hover:bg-secondary transition-all">
+							Modifier
+						</a>
+					</div>
+					{% endif %}
+					<p class="text-right w-full p-2 font-bold my-auto">
+						{{created_at == modified_at ? 'Ajouté le' : 'Modifié le'}}
+						{{modified_at}}
+					</p>
+				</div>
 			</div>
 
 			<div

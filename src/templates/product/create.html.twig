@@ -6,11 +6,53 @@
 
 {% block body %}
 	<session id="symfoForm" class="p-5 w-5/12">
-		<h1 class=" text-3xl font-bold">Infos générales</h1>
+		
 		{{form_start(createProductForm)}}
-		{{form_widget(createProductForm)}}
+		<session id="ShowProduct" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
+		<h1 class=" text-3xl font-bold">Infos générales</h1>
+            <div id="ProductImage" class="w-5/12 flex flex-col items-center my-auto">
+                {{ form_row(createProductForm.images,
+                    {'attr':{novalidate:'novalidate'},
+                    'label':false,
+                    'required':false,}
+                ) }}
+            </div>
+            {# {{dump(product)}} #}
+
+            <div id="ProductInfos" class="w-5/12 flex flex-col h-full">
+                <div id="ProductDescription" class="h-5/6">
+                    <div class="flex justify-between py-12 ">
+                        {{form_widget(createProductForm.title, 
+                            {'attr': {'class': 'text-3xl font-bold w-2/3 inputModif', 'placeholder': 'Titre'}})
+                        }}
+                        <div class="text-4xl font-bold text-primary flex justify-center m-auto">
+                        {{form_widget(createProductForm.price, 
+                            {'attr': {'class': '!text-4xl !font-bold !text-primary !my-auto !ml-auto !mr-1 !p-0.5 !w-1/2 inputModif', 'placeholder': 'Prix'}})
+                        }}€
+                       </div>
+                    </div>
+
+                    <div class="text-medium w-auto overflow-auto p-2 h-[25vh]">
+                        {{form_widget(createProductForm.description, 
+                            {'attr': {'class': '!min-h-[95%] inputModif', 'placeholder': 'Description'}})
+                        }}
+                    </div>
+
+                  {# send the form #}
+                    <div class="flex justify-end my-4">
+                        <button type="submit" class="bg-primary text-white text-2xl font-bold py-2 px-4 rounded hover:bg-secondary transition-all">
+                            Confirmer
+                        </button>
+                    </div>
+                </div>
+            </div>
+	</session>
 		{{form_end(createProductForm)}}
 	</session>
 
+	<script>     
+        //Hide post_Poster at page load
+        document.getElementById('post_Poster').style.display = 'none';
+    </script>
 
 {% endblock %}

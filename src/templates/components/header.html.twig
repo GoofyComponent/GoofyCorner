@@ -3,12 +3,12 @@
 		class="px-4 py-8 flex justify-around">
 		<!-- logo -->
 
-		<p class="font-bold text-4xl text-primary my-auto">GoofyCorner</p>
+		<a href="/" class="font-bold text-4xl text-primary my-auto">GoofyCorner</a>
 
 
 		{% if app.user %}
 			<!-- publish -->
-			<a href="/product/new" class="my-2 bg-secondary rounded-3xl py-2.5 px-3 transition-all hover:bg-primary">
+			<a href="/product/new" class="my-2 bg-primary rounded-3xl py-2.5 px-3 transition-all hover:bg-secondary transition-all">
 				<p class="text-white font-medium text-center">Déposer une annonce</p>
 			</a>
 		{% endif %}

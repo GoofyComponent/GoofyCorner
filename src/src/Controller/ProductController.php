@@ -23,7 +23,6 @@ class ProductController extends AbstractController
     #[Route('/product/new', name: 'app_product_new')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-
         #Check if user is logged in
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -75,15 +74,19 @@ class ProductController extends AbstractController
     #[Route('/product/{id}', name: 'app_product_show')]
     public function show($id, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $isOwner = false;
 
         $post = $entityManager->getRepository(Post::class)->find($id);
         if (!$post) {
             return $this->redirectToRoute('app_404');
         }
+
         $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
         $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
 
-
+        if($post->getUser() === $this->getUser()){
+            $isOwner = true;
+        }
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
@@ -102,6 +105,7 @@ class ProductController extends AbstractController
                 'email' => $user,
                 'image' => $userImage,
                 'username' => $username,
+                'isOwner' => $isOwner
             ],
         ]);
     }
@@ -110,10 +114,16 @@ class ProductController extends AbstractController
     public function edit($id, Request $request, EntityManagerInterface $entityManager, ManagerRegistry $doctrine): Response
     {
         $post = $entityManager->getRepository(Post::class)->find($id);
+
+        if($post->getUser() != $this->getUser()){
+            return $this->redirectToRoute('app_404');
+        }
         
         if (!$post) {
             return $this->redirectToRoute('app_404');
         }
+
+        
         
         $oldImages = $post->getImages();
 
@@ -129,12 +139,37 @@ class ProductController extends AbstractController
         $user = $user->getEmail();
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Get the removedImage input
+            $removedImage = $request->request->get('removedImage');
+            //Remove the [ ] from the string
+            $removedImage = str_replace('[', '', $removedImage);
+            $removedImage = str_replace(']', '', $removedImage);
+            //Convert the string to an array
+            $removedImage = explode(',', $removedImage);
+
             $post = $form->getData();
 
             $post->setModifiedAt(new \DateTimeImmutable());
 
             $imagesArray = $oldImages;
 
+            //If removedImage is not empty
+            if (!empty($removedImage)) {
+                if($removedImage[0]===""){
+                    $removedImage = [];
+                }
+                //Remove the images that were removed
+                foreach ($removedImage as $image) {
+                    if ($image != "0") {
+                        //Remove the image from the server
+                        $filesystem = new Filesystem();
+                        $filesystem->remove($this->getParameter('images_directory') . '/' . $imagesArray[$image]);
+                        unset($imagesArray[$image]);
+                    }
+                }
+            }
+        
             $images = $form->get('images')->getData();
 
             foreach ($images as $image) {
