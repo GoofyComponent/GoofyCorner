@@ -1,0 +1,12 @@
+public function index()
+{
+    return $this->render('/home/index.html.twig');
+}
+
+<p>Nom : {{ app.user.name }}</p>
+<p>Prénom : {{ app.user.firstname }}</p>
+<p>E-mail : {{ app.user.email }}</p>
+
+{% for annonce in app.user.annonces %}
+    <p>Titre : {{ annonce.title }}</p>
+{% endfor %}
