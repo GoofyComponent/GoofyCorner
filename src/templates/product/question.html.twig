@@ -1,0 +1,32 @@
+
+
+{% block body %}
+<div id="question" class="px-2 py-4 w-11/12 mx-auto flex justify-between h-full">
+    <div id="addQuestion" class="w-5/12 flex ">
+        
+        {% if app.user %}
+        {{ form_start(addQuestion)}}
+            {{ form_row(addQuestion.content) }}
+            <button type="submit" class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary">send</button>
+        {{ form_end(addQuestion) }}
+        {% endif %}
+    </div>
+    <div id="showQuestion" class="w-5/12 block  ">
+        <h2>Questions</h2>
+        {% for question in product.question %}
+            <div class="p-2 my-2 border-t border-secondary">
+                {{ question.content }}<br>
+                <span class="text-xs text-gray-500">by {{ question.user.username }}</span>
+            </div>
+
+        {% else %}
+            <div class="p-2 border-secondary">
+            Aucune question
+            </div>
+        {% endfor %}
+    </div>
+    
+
+</div>
+
+{% endblock %}

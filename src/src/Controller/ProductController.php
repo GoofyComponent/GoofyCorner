@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Form\PostType;
+use App\Form\QuestionType;
 use App\Entity\Post;
+use App\Entity\Question;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,6 +72,7 @@ class ProductController extends AbstractController
             );
         }
     }
+   
 
     #[Route('/product/{id}', name: 'app_product_show')]
     public function show($id, Request $request, EntityManagerInterface $entityManager): Response
@@ -84,8 +87,8 @@ class ProductController extends AbstractController
         $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
         $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
 
-        if($post->getUser() === $this->getUser()){
-            $isOwner = true;
+        if(!$post) {
+            return $this->redirectToRoute('app_404');
         }
 
         #Retreive all data about the user who posted the product
@@ -94,8 +97,26 @@ class ProductController extends AbstractController
         $username = $user->getUsername();
         $userFirstName = $user->getFirstName();
         $user = $user->getEmail();
+        $question = new Question();
+        $form = $this->createForm(QuestionType::class, $question);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+            $question = $form->getData();
+            $question->setUser($this->getUser());
+            $question->setPost($post);
+
+            $entityManager->persist($question);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_product_show', ['id' => $post->getId()]);
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Please fill in all the fields');
+        }
+      
         return $this->render('product/show.html.twig', [
+            
             'id' => $id,
             'product' => $post,
             'created_at' => $postCreation,
@@ -107,8 +128,12 @@ class ProductController extends AbstractController
                 'username' => $username,
                 'isOwner' => $isOwner
             ],
+            'addQuestion' => $form->createView()
+
         ]);
     }
+
+   
 
     #[Route('/product/{id}/edit', name: 'app_product_edit')]
     public function edit($id, Request $request, EntityManagerInterface $entityManager, ManagerRegistry $doctrine): Response
