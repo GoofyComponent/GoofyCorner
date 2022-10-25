@@ -41,7 +41,7 @@ final class TagFactory extends ModelFactory
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             // 30 characters max
-            'name' => self::faker()->text(30),
+            'name' => self::faker()->text(5),
         ];
     }
 

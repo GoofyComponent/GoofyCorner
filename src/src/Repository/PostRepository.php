@@ -41,59 +41,53 @@ class PostRepository extends ServiceEntityRepository
     }
 
 
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('p.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
     /**
-    * @return Post[] Returns an array of Post objects
-    */
-   public function findByTagAndName($tag,$name): array{
+     * @return Post[] Returns an array of Post objects
+     */
+    public function findByTagAndName($tag, $name): array
+    {
 
-        $tag=$this->getEntityManager()->getRepository(Tag::class)->findOneBy(['name' => $tag]);
+        $tag = $this->getEntityManager()->getRepository(Tag::class)->findOneBy(['name' => $tag]);
         // tag is a relation, so we need to use the relation name to get the tag from the query build
         if ($name != '' and $tag != null) {
             return $this->createQueryBuilder('p')
-                ->andWhere('p.title = :title')
-                ->setParameter('title', $name)
+                ->andWhere('p.title LIKE :title')
+                ->setParameter('title', '%' . $name . '%')
                 ->join('p.Tag', 't')
                 ->andWhere('t.id = :tag')
                 ->setParameter('tag', $tag->getId())
                 ->getQuery()
-                ->getResult()
-            ;
-        }elseif ($name != '' and $tag == null) {
+                ->getResult();
+        } elseif ($name != '' and $tag == null) {
             return $this->createQueryBuilder('p')
-                ->andWhere('p.title = :title')
-                ->setParameter('title', $name)
+                ->andWhere('p.title LIKE :title')
+                ->setParameter('title', '%' . $name . '%')
                 ->getQuery()
-                ->getResult()
-            ;
-        }elseif ($name == '' and $tag != null) {
+                ->getResult();
+        } elseif ($name == '' and $tag != null) {
             return $this->createQueryBuilder('p')
                 ->join('p.Tag', 't')
                 ->andWhere('t.id = :tag')
                 ->setParameter('tag', $tag->getId())
                 ->getQuery()
-                ->getResult()
-            ;
-        }else {
+                ->getResult();
+        } else {
             //findAll()
             return $this->createQueryBuilder('p')
                 ->getQuery()
-                ->getResult()
-            ;
-
+                ->getResult();
         }
-        
     }
-        
 }

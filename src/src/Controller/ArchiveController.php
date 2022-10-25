@@ -20,18 +20,18 @@ class ArchiveController extends AbstractController
 
     public function index(Request $request, TagRepository $tagRepository, PostRepository $postRepository): Response
     {
-        
+
 
         $search = $request->query->get('search');
         $tag = $request->query->get('tag');
-
+        if ($tag == "TOUTES CATÉGORIES") {
+            $tag = null;
+        }
         $post = $postRepository->findByTagAndName($tag, $search);
-        dd($post);
+
         return $this->render('archive/index.html.twig', [
             'controller_name' => 'ArchiveController',
-
+            'posts' => $post,
         ]);
-    
-    
     }
 }
