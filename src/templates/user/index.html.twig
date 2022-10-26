@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}User Edit
+{% endblock %}
+
+{% block body %}
+
+<section>
+    <h2>Profil de {{ user.firstname }} {{ user.lastname }}</h2>
+</section>
+
+{# TODO Articles postés #}
+{# <section>
+    {% if post.user %}
+        <h2>Annonces publiées</h2>
+        <ul>
+        {% for id in post %}
+            <il>{{ post.name }}</il>
+            <il>{{ post.price }}</il>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h2>Pas d'annonces publiées</h2>
+    {% endif %}
+</section> #}
+
+<section id="register" class="bg-white h-screen">
+    {{ form_start(editForm) }}
+        <h2 class="mx-auto font-bold opacity-40 text-2xl">Éditer votre profil</h2>
+        {{ form_row(editForm.email,{
+			label: 'Email'
+		}) }}
+        {{ form_row(editForm.username,{
+			label: 'Username'
+		}) }}
+        {{ form_row(editForm.plainPassword,{
+			label: 'Password'
+		}) }}
+        {{ form_row(editForm.firstname,{
+			label: 'First Name'
+		}) }}
+        {{ form_row(editForm.lastname,{
+			label: 'Last Name'
+		}) }}
+        {{ form_row(editForm.adresse,{
+			label: 'Adress'
+		}) }}
+        <div class="flex justify-between">
+            <button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
+                Sauvegarder
+            </button>
+        </div>
+    {{ form_end(editForm) }}
+</section>
+
+{% endblock %}
