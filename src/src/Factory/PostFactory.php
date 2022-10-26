@@ -67,8 +67,10 @@ final class PostFactory extends ModelFactory
         // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
         return $this
             ->afterInstantiate(function (Post $post): void {
-                $tag = TagFactory::random();
-                $tag->addPost($post);
+                $tags = TagFactory::randomRange(1, 4);
+                foreach ($tags as $tag) {
+                    $tag->addPost($post);
+                }
             });
     }
 
