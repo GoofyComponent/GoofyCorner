@@ -125,6 +125,7 @@ class ProductController extends AbstractController
 
         #Retreive all data about the user who posted the product
         $user = $post->getUser();
+        $userId = $user->getId();
         $userImage = $user->getImage();
         $username = $user->getUsername();
         $userFirstName = $user->getFirstName();
@@ -174,6 +175,7 @@ class ProductController extends AbstractController
             'created_at' => $postCreation,
             'modified_at' => $postModified,
             'seller' => [
+                'id' => $userId,
                 'firstName' => $userFirstName,
                 'email' => $user,
                 'image' => $userImage,

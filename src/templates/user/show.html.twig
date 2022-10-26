@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block title %}User Edit
+{% endblock %}
+
+{% block body %}
+<section id="showprofile" class="bg-white min-h-[85vh] flex justify-between mx-4">
+    <div class="bg-secondary rounded-lg min-h-full m-auto flex flex-col items-center text-center w-5/12 p-4">
+        <div class="flex justify-evenly w-10/12 mx-auto">
+            <h2 class="text-2xl font-bold m-auto">Profil de {{ user.firstname }} {{ user.lastname }}</h2>
+            {% if type == 'own' %}
+                <div class="flex justify-center rounded bg-primary text-white font-bold py-2 px-4 mx-auto mt-[1%] transition-all hover:bg-primary/75">
+                    <a href="{{ path('app_user_edit') }}" class="my-auto">Modifier</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="flex justify-center">
+            {% if user.image is not null %}
+                <img class="rounded-full h-32 w-32 my-10" src="{{ asset('uploads/images/' ~ user.image) }}" alt="avatar">
+            {% else %}
+                <img class="rounded-full h-32 w-32 my-10" src="https://images.unsplash.com/photo-1551373884-8a0750074df7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="avatar">
+            {% endif %}
+        </div>
+        <div class="flex justify-content-evenly m-auto !text-left w-10/12">
+            <div class="m-auto">
+                <div class="">
+                    <p class="text-lg">{{ user.username }}</p>
+                </div>
+                <div class="">
+                    <p>{{ user.email }}</p>
+                </div>
+            </div>
+            {% if type == 'own' %}
+            <div class="m-auto">
+                <div class="">
+                    <p class="text-lg">{{ user.firstname }} {{ user.lastname }}</p>
+                </div>
+                <div class="">
+                    <p class="text-lg">{{ user.adresse }}</p>
+                </div>
+            </div>
+            {% endif %}   
+        </div>
+    </div>
+    <div class="w-5/12 flex flex-col mx-4 py-6 overflow-x-auto max-h-[80vh]">
+        {% for product in posts %}
+        <div class="w-full p-4 border-b-2 border-primary ">
+            <p class="text-lg font-bold">{{ product.title }}</p>
+            
+            <div class="flex justify-between m-auto">
+                <div>
+                    <img src="{{  asset('uploads/images/' ~ product.images[0]) }}" class="h-[10vh] rounded-lg" alt="...">
+                    <p class="card-text">{{ product.description }}</p>
+                    <a href="{{ path('app_product_show', {id:product.id}) }}" class="text-primary transition-all hover:border-b-2 hover:text-secondary border-secondary">Voir la page de l'article</a>
+                </div>
+
+                <p class="text-primary font-bold text-4xl">{{product.price}}€</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
