@@ -13,16 +13,16 @@ class Vote
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 4, nullable: true)]
+    #[ORM\Column(length: 4)]
     private ?string $review = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Vote')]
+    #[ORM\ManyToOne(inversedBy: 'rates')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $seller = null;
+
+    #[ORM\ManyToOne(inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    #[ORM\ManyToOne(inversedBy: 'Vote')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Post $post = null;
 
     public function getId(): ?int
     {
@@ -34,9 +34,21 @@ class Vote
         return $this->review;
     }
 
-    public function setReview(?string $review): self
+    public function setReview(string $review): self
     {
         $this->review = $review;
+
+        return $this;
+    }
+
+    public function getSeller(): ?User
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?User $seller): self
+    {
+        $this->seller = $seller;
 
         return $this;
     }
@@ -49,18 +61,6 @@ class Vote
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getPost(): ?Post
-    {
-        return $this->post;
-    }
-
-    public function setPost(?Post $post): self
-    {
-        $this->post = $post;
 
         return $this;
     }

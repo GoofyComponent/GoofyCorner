@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Entity\Vote;
+use App\Entity\Vote; 
 use App\Repository\VoteRepository;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
@@ -43,7 +43,7 @@ final class VoteFactory extends ModelFactory
             // review est le mot 'up' ou 'down' de manière aléatoire
             'review' => self::faker()->randomElement(['up', 'down']),
             'user' => UserFactory::random(),
-            'post' => PostFactory::random(),
+            'seller' => UserFactory::random(),
         ];
     }
 

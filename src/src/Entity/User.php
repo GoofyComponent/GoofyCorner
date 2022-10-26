@@ -41,9 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $Question;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Vote::class, orphanRemoval: true)]
-    private Collection $Vote;
-
     #[ORM\Column(length: 50)]
     private ?string $lastname = null;
 
@@ -62,12 +59,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reponse::class, orphanRemoval: true)]
     private Collection $reponses;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Vote::class, orphanRemoval: true)]
+    private Collection $votes;
+
+    #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Vote::class, orphanRemoval: true)]
+    private Collection $rates;
+
     public function __construct()
     {
         $this->Post = new ArrayCollection();
         $this->Question = new ArrayCollection();
-        $this->Vote = new ArrayCollection();
         $this->reponses = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->rates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,36 +216,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Vote>
-     */
-    public function getVote(): Collection
-    {
-        return $this->Vote;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        if (!$this->Vote->contains($vote)) {
-            $this->Vote->add($vote);
-            $vote->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        if ($this->Vote->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getUser() === $this) {
-                $vote->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getLastname(): ?string
     {
         return $this->lastname;
@@ -326,6 +300,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($reponse->getUser() === $this) {
                 $reponse->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vote>
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes->add($vote);
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+        /**
+     * @return Collection<int, Vote>
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Vote $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates->add($rate);
+            $rate->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Vote $rate): self
+    {
+        if ($this->rates->removeElement($rate)) {
+            // set the owning side to null (unless already changed)
+            if ($rate->getUser() === $this) {
+                $rate->setUser(null);
             }
         }
 

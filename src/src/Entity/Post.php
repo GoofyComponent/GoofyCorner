@@ -38,8 +38,6 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $Question;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Vote::class, orphanRemoval: true)]
-    private Collection $Vote;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'posts')]
     private Collection $Tag;
@@ -52,7 +50,6 @@ class Post
     public function __construct()
     {
         $this->Question = new ArrayCollection();
-        $this->Vote = new ArrayCollection();
         $this->Tag = new ArrayCollection();
     }
 
@@ -163,35 +160,6 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Vote>
-     */
-    public function getVote(): Collection
-    {
-        return $this->Vote;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        if (!$this->Vote->contains($vote)) {
-            $this->Vote->add($vote);
-            $vote->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        if ($this->Vote->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getPost() === $this) {
-                $vote->setPost(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Tag>
