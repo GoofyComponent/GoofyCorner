@@ -3,11 +3,6 @@
 {% endblock %}
 
 {% block body %}
-
-<section>
-    <h2>Profil de {{ user.firstname }} {{ user.lastname }}</h2>
-</section>
-
 {# TODO Articles postés #}
 {# <section>
     {% if post.user %}
@@ -23,9 +18,9 @@
     {% endif %}
 </section> #}
 
-<section id="register" class="bg-white h-screen">
+<section id="register" class="bg-white">
     {{ form_start(editForm) }}
-        <h2 class="mx-auto font-bold opacity-40 text-2xl">Éditer votre profil</h2>
+        <h2 class="mx-auto font-bold opacity-40 text-2xl">Éditer le profil de {{ user.firstname }} {{ user.lastname }}</h2>
         {{ form_row(editForm.email,{
 			label: 'Email'
 		}) }}
@@ -45,11 +40,23 @@
 			label: 'Adress'
 		}) }}
         <div class="flex justify-between">
+            <button class="rounded-full bg-white w-4/12 p-2 mx-auto transition-all hover:bg-primary border-2 border-primary" onclick="doIt(e);">
+                Annuler
+            </button>
             <button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
                 Sauvegarder
             </button>
         </div>
     {{ form_end(editForm) }}
 </section>
+
+<script>
+
+function doIt(e) {
+    e.preventDefault();
+    window.history.back();
+}
+
+</script>
 
 {% endblock %}

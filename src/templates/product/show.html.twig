@@ -65,7 +65,7 @@
 			</div>
 
 			<div
-				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg mx-auto">
+				id="ProductSeller" class="flex justify-around p-2 bg-secondary w-11/12 rounded-lg mx-auto hover:cursor-pointer hover:bg-primary transition-all">
 				<div
 					class="object-cover my-auto">
 					{# si image null alors default image sinon on mets l'image #}
@@ -95,6 +95,10 @@
 		//Hide imageBigPreview at page load
         document.getElementById('imagesBigPreview').style.display = 'none';
         document.getElementById('bigPreviewBackground').style.display = 'none';
+
+		document.getElementById('ProductSeller').addEventListener('click', function(){
+			window.location.href = "{{path('user_other', {'id': seller.id})}}";
+		});
 
         //Show imageBigPreview when click on image
         let images = document.querySelectorAll('.miniImage');
