@@ -5,8 +5,9 @@
     <div id="addQuestion" class="w-5/12 flex ">
         
         {% if app.user %}
-        {{ form_start(addQuestion)}}
-            {{ form_row(addQuestion.content) }}
+        {{ form_start(addQuestion, {'attr': {'class': 'w-full'}})}}
+           <label for="question_title">Questions</label>
+            {{ form_widget(addQuestion.content) }}
             <button type="submit" class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary">send</button>
         {{ form_end(addQuestion) }}
         {% endif %}
@@ -17,6 +18,24 @@
             <div class="p-2 my-2 border-t border-secondary">
                 {{ question.content }}<br>
                 <span class="text-xs text-gray-500">by {{ question.user.username }}</span>
+                <div class='reponses'>
+
+
+                    {% for reponse in question.reponses %}
+                        <div class="p-2 my-2 border-t border-secondary w-11/12 ml-auto">
+                            {{ reponse.content }}<br>
+                            <span class="text-xs text-gray-500">by {{ reponse.user.username }}</span>
+                        </div>
+                    {% endfor %}
+
+                    
+                </div>
+                <form action="{{path('app_reponse_new')}}">
+                    <input type="hidden" name="question_id" value="{{ question.id }}">
+                    <br>
+                    <input type=" textarea"required="required" name="reponse" placeholder="reponse">
+                    <button type="submit" class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary">send</button>
+                </form>
             </div>
 
         {% else %}

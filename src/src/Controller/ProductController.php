@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Form\PostType;
 use App\Form\QuestionType;
+use App\Form\ReponseType;
 use App\Entity\Post;
 use App\Entity\Question;
+use App\Entity\Reponse;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,6 +75,36 @@ class ProductController extends AbstractController
         }
     }
    
+    #[Route('/product/newreponse', name: 'app_reponse_new', methods: ['GET'])]
+    public function addreponse(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $reponse = new Reponse();
+
+        $questionID = $request->query->get('question_id');
+        $question = $entityManager->getRepository(Question::class)->find($questionID);
+        if (!$question) {
+            throw $this->createNotFoundException(
+                'No question found for id ' . $questionID
+            );
+        }
+        $post = $question->getPost();
+        $user = $this->getUser();
+        $reponse->setQuestion($question);
+        $reponse->setUser($user);
+        $reponse->setContent($request->query->get('reponse'));
+        if(!$request->query->get('reponse')){
+            throw $this->createNotFoundException(
+                'No reponse found for id ' . $questionID
+            );
+        }
+        $entityManager->persist($reponse);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_product_show', ['id' => $post->getId()]);
+            
+    }
+
+    
 
     #[Route('/product/{id}', name: 'app_product_show')]
     public function show($id, Request $request, EntityManagerInterface $entityManager): Response
@@ -98,9 +130,14 @@ class ProductController extends AbstractController
         $userFirstName = $user->getFirstName();
         $user = $user->getEmail();
         $question = new Question();
-        $form = $this->createForm(QuestionType::class, $question);
+        $reponse = new Reponse();
 
+        $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
+
+        $formReponse = $this->createForm(ReponseType::class, $reponse);
+        $formReponse->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
             $question = $form->getData();
@@ -114,7 +151,22 @@ class ProductController extends AbstractController
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('error', 'Please fill in all the fields');
         }
-      
+        
+        
+        if ($formReponse->isSubmitted() && $formReponse->isValid() && $this->getUser()) {
+            $reponse = $formReponse->getData();
+            $reponse->setUser($this->getUser());
+            $questionID = $request->request->get('question_id');
+            $question = $entityManager->getRepository(Question::class)->find($questionID);
+            $reponse->addQuestion($question);
+
+            $entityManager->persist($reponse);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_product_show', ['id' => $question->getId()]);
+        } elseif ($form->isSubmitted() && !$formReponse->isValid()) {
+            $this->addFlash('error', 'Please fill in all the fields');
+        }
         return $this->render('product/show.html.twig', [
             
             'id' => $id,
@@ -128,7 +180,8 @@ class ProductController extends AbstractController
                 'username' => $username,
                 'isOwner' => $isOwner
             ],
-            'addQuestion' => $form->createView()
+            'addQuestion' => $form->createView(),
+            'formReponse' => $formReponse->createView()
 
         ]);
     }
