@@ -8,24 +8,12 @@
     <h2>Profil de {{ user.firstname }} {{ user.lastname }}</h2>
 </section>
 
-{# TODO Articles postés #}
-{# <section>
-    {% if post.user %}
-        <h2>Annonces publiées</h2>
-        <ul>
-        {% for id in post %}
-            <il>{{ post.name }}</il>
-            <il>{{ post.price }}</il>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <h2>Pas d'annonces publiées</h2>
-    {% endif %}
-</section> #}
-
 <section id="register" class="bg-white h-screen">
     {{ form_start(editForm) }}
         <h2 class="mx-auto font-bold opacity-40 text-2xl">Éditer votre profil</h2>
+        {{ form_row(editForm.image,{
+			label: 'Picture'
+		}) }}
         {{ form_row(editForm.email,{
 			label: 'Email'
 		}) }}
@@ -33,7 +21,8 @@
 			label: 'Username'
 		}) }}
         {{ form_row(editForm.plainPassword,{
-			label: 'Password'
+			label: 'Password',
+            required: false
 		}) }}
         {{ form_row(editForm.firstname,{
 			label: 'First Name'

@@ -18,41 +18,50 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Security\AppCustomAuthenticator;
-// Published Posts
-use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 
 use App\Form\EditUserType;
 
 class UserController extends AbstractController
 {
     #[Route('/user/edit', name:'app_user_edit')]
-    public function index(UserRepository $userRepository, Request $request): Response
+    public function index(UserRepository $userRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
+
+
+
         $user = $this->getUser();
+
         if (!$user){
             return $this->redirectToRoute('app_home');
         }
 
-        $form = $this->createForm(EditUserType::class);
+        $form = $this->createForm(EditUserType::class,$user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Redirect
-            $task = $form->getData();
-            // Set and Hash password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $user = $form->getData();
+            $image = $form->get('image')->getData();
+            if ($form->get('image')->getData()!='' && $form->get('image')->getData()!=null){
+                $file = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $file
+                );
+                $user->setImage($file);
+            }
+            if ($form->get('plainPassword')->getData()!='' && $form->get('plainPassword')->getData()!=null){
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+            }
             // Save user data and Flush
             $entityManager->persist($user);
             $entityManager->flush();
-            // Log in modified user
-            $userAuthenticator->authenticateUser($user, $appCustomAuthenticator, $request);
         }
         return $this->render('user/index.html.twig', [
             'editForm'=>$form->createView(),
