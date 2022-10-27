@@ -132,6 +132,7 @@ class ProductController extends AbstractController
         $user = $user->getEmail();
         $question = new Question();
         $reponse = new Reponse();
+        $isOwner = $this->getUser() == $post->getUser();
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);

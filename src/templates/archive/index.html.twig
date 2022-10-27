@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArchiveController!{% endblock %}
+{% block title %}Votre recherche sur GoofyCorner{% endblock %}
 
 {% block body %}
 <section class="py-6 sm:py-12 ">
@@ -8,25 +8,25 @@
         <div class="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
         {% for post in posts %}
             <article class="flex flex-col">
-                <a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum">
-                    <img alt="" class="object-cover w-full h-52" src="{{ asset('uploads/images/' ~post.images[0]) }}">
+                <a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum" class="hover:opacity-75 transition-all">
+                    <img alt="" class="object-cover w-full h-52 rounded-lg" src="{{ asset('uploads/images/' ~ post.images[0]) }}">
                 </a>
                 <div class="flex flex-col flex-1 p-6">
-					<a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum"></a>
+					<a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum" class="hover:opacity-75 transition-all"></a>
 					{# <a rel="noopener noreferrer" href="#" class="text-xs tracking-wider uppercase hover:underline">Convenire</a> #}
                     {# liste des tag sur une ligne : max 4 tag #}
                     <div class="flex flex-wrap gap-2">
                         {% for tag in post.tag %}
                             {# ?tag=tag #}
-                            <a rel="noopener noreferrer" href="{{path('app_search', {'tag': tag.name})}}" class="text-xs tracking-wider uppercase hover:underline">{{ tag.name }}  </a>
+                            <a rel="noopener noreferrer" href="{{path('app_search', {'tag': tag.name})}}" class="text-xs tracking-wider uppercase hover:underline hover:opacity-75 transition-all">{{ tag.name }}  </a>
                         {% endfor %}
                     </div>
 					<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">
-                        <a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum">{{ post.title }}</a>
+                        <a rel="noopener noreferrer" href="{{path('app_product_show', {'id': post.id})}}" aria-label="Te nulla oportere reprimique his dolorum" class="hover:opacity-75 transition-all">{{ post.title }}</a>
                     </h3>
                     <div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs">
-						<span>{{ post.modifiedAt | date('d/m/Y') }}</span>
-						<span>{{ post.price }} €</span>
+						<span class="my-auto">{{ post.modifiedAt | date('d/m/Y') }}</span>
+						<span class="text-2xl font-bold text-primary">{{ post.price }} €</span>
 					</div>
                 </div>
             </article>
