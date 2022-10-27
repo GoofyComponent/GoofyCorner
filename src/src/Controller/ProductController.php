@@ -9,6 +9,8 @@ use App\Entity\Post;
 use App\Entity\Question;
 use App\Entity\Reponse;
 use App\Entity\User;
+use App\Entity\Tag;
+use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,12 +27,14 @@ class ProductController extends AbstractController
 {
 
     #[Route('/product/new', name: 'app_product_new')]
-    public function create(Request $request, ManagerRegistry $doctrine): Response
+    public function create(Request $request, ManagerRegistry $doctrine, TagRepository $tagRepository): Response
     {
         #Check if user is logged in
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+
+        $tags = $tagRepository->findAll();
 
         $post = new Post();
 
@@ -57,6 +61,21 @@ class ProductController extends AbstractController
             $post->setModifiedAt(new \DateTimeImmutable());
             $post->setUser($this->getUser());
 
+            $tags = [];
+
+        if($request->request->get('tag1') != null){
+            $tag1 = $doctrine->getRepository(Tag::class)->findOneBy(["name" => $request->request->get('tag1')]);
+            $post->addTag($tag1);
+        }
+        if($request->request->get('tag2') != null){
+            $tag2 = $doctrine->getRepository(Tag::class)->findOneBy(["name" => $request->request->get('tag2')]);
+            $post->addTag($tag2);
+        }
+        if($request->request->get('tag3') != null){
+            $tag3 = $doctrine->getRepository(Tag::class)->findOneBy(["name" => $request->request->get('tag3')]);
+            $post->addTag($tag3);
+        }
+
             $images = $form->get('images')->getData();
             $imagesArray = [];
             foreach ($images as $image) {
@@ -82,6 +101,7 @@ class ProductController extends AbstractController
                 'product/create.html.twig',
                 [
                     'createProductForm' => $form->createView(),
+                    'tags' => $tags
                 ]
             );
         }
@@ -130,6 +150,7 @@ class ProductController extends AbstractController
 
         $postCreation = $post->getCreatedAt()->format('d-m-Y H:i:s');
         $postModified = $post->getModifiedAt()->format('d-m-Y H:i:s');
+        $tags = $post->getTag();
 
         if(!$post) {
             return $this->redirectToRoute('app_404');
@@ -187,6 +208,7 @@ class ProductController extends AbstractController
             'product' => $post,
             'created_at' => $postCreation,
             'modified_at' => $postModified,
+            'tags' => $tags,
             'seller' => [
                 'id' => $userId,
                 'firstName' => $userFirstName,

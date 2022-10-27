@@ -6,8 +6,10 @@
 {% endblock %}
 
 {% block body %}
-	<article class="text-primary/60 px-10 py-2 mx-auto">
-		Road > to > Article
+	<article class="text-primary/60 px-10 py-2 ml-0 mr-auto flex justify-evenly w-3/12">
+		{% for tag in tags %}
+			<p>{{tag.name}}</p> <p>-</p>
+		{% endfor %}
 	</article>
 
 	<div id="bigPreviewBackground" class="fixed h-screen w-screen z-10 bg-black/50"></div>
