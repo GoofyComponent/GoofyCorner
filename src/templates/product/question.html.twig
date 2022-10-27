@@ -25,7 +25,7 @@
 
   <div class="w-full">
     <input type="checkbox" name="panel" id="{{ question.id }}" class="hidden">
-    <label for="{{ question.id }}" class="relative block  p-4 text-end hover:scale-105 w-4/12 ml-80 mr-1"><span class="shadow p-3.5 noselect transition-all  hover:cursor-pointer">Reponse V</span></label>
+    <label for="{{ question.id }}" class="relative block  p-4 text-end hover:scale-105 w-4/12 ml-auto mr-1"><span class="shadow p-3.5 noselect transition-all  hover:cursor-pointer">Reponse V</span></label>
     <div class="accordion__content overflow-hidden bg-grey-lighter">
         <div class="reponse">
             {% for reponse in question.reponses %}
