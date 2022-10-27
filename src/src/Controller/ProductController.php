@@ -39,6 +39,18 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($form->get('images')->getData() == null){
+                $this->addFlash('error', 'Veuillez ajouter une image');
+                return $this->redirectToRoute('app_product_new');
+            }
+
+            /* Check if the price is a number */
+            if(!is_numeric($form->get('price')->getData())){
+                $this->addFlash('error', 'Le prix doit être un nombre');
+                return $this->redirectToRoute('app_product_new');
+            }
+
             $post = $form->getData();
             #Add the createdTime to the post
             $post->setCreatedAt(new \DateTimeImmutable());
