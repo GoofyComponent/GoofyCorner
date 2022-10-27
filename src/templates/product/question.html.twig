@@ -21,22 +21,32 @@
                 <div class='reponses'>
 
 
-                    {% for reponse in question.reponses %}
-                        <div class="p-2 my-2 border-t border-secondary w-11/12 ml-auto">
-                            {{ reponse.content }}<br>
-                            <span class="text-xs text-gray-500">by {{ reponse.user.username }}</span>
-                        </div>
-                    {% endfor %}
+                   
 
-                    
+  <div class="w-full">
+    <input type="checkbox" name="panel" id="panel-1" class="hidden">
+    <label for="panel-1" class="relative block  p-4 text-end hover:scale-105 w-3/12 ml-80 mr-1"><span class="shadow p-3.5 noselect transition-all  hover:cursor-pointer">Reponse</span></label>
+    <div class="accordion__content overflow-hidden bg-grey-lighter">
+        <div class="reponse">
+            {% for reponse in question.reponses %}
+                <div class="p-2 my-2 border-t border-secondary w-11/12 ml-auto">
+                    {{ reponse.content }}<br>
+                    <span class="text-xs text-gray-500">by {{ reponse.user.username }}</span>
                 </div>
-                <form action="{{path('app_reponse_new')}}">
+            {% endfor %}
+        </div>
+        <div class="reponseForm">
+        <form action="{{path('app_reponse_new')}}" class="flex items-baseline">
                     <input type="hidden" name="question_id" value="{{ question.id }}">
                     <br>
-                    <input type=" textarea"required="required" name="reponse" placeholder="reponse">
-                    <button type="submit" class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary">send</button>
+                    <input type=" textarea"required="required" name="reponse" placeholder="reponse" class="w-9/12 form-control block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-secondary transition-all resize-none">
+                    <button type="submit" class="rounded-full bg-secondary w-3/12 p-2 mx-auto transition-all hover:bg-primary">send</button>
                 </form>
-            </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
 
         {% else %}
             <div class="p-2 border-secondary">
