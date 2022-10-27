@@ -5,25 +5,28 @@
 {% block body %}
 <section id="showprofile" class="bg-white min-h-[85vh] flex justify-between mx-4">
     <div class="bg-secondary rounded-lg min-h-full m-auto flex flex-col items-center text-center w-5/12 p-4">
-        <div class="flex justify-evenly w-10/12 mx-auto">
+        <div class="flex justify-evenly w-11/12 mx-auto">
             <h2 class="text-2xl font-bold m-auto">Profil de {{ user.firstname }} {{ user.lastname }}</h2>
             {% if type == 'own' %}
                 <div class="flex justify-center rounded bg-primary text-white font-bold py-2 px-4 mx-auto mt-[1%] transition-all hover:bg-primary/75">
                     <a href="{{ path('app_user_edit') }}" class="my-auto">Modifier</a>
                 </div>
             {% endif %}
+            <div class="flex justify-center rounded bg-primary text-white font-bold py-2 px-4 mx-auto mt-[1%] transition-all hover:bg-primary/75">
+                <a href="{{ path('app_logout') }}" class="my-auto">Se deconnecter</a>
+            </div>
         </div>
         <div class="flex justify-center">
             {% if user.image is not null %}
                 <img class="rounded-full h-32 w-32 my-10" src="{{ asset('uploads/images/' ~ user.image) }}" alt="avatar">
             {% else %}
-                <img class="rounded-full h-32 w-32 my-10" src="https://images.unsplash.com/photo-1551373884-8a0750074df7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="avatar">
+                <img src='https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg' alt="Avatar de {{user.username}}" class="rounded-full h-32 w-32 my-10"/>
             {% endif %}
         </div>
         <div class="flex justify-content-evenly m-auto !text-left w-10/12">
             <div class="m-auto">
                 <div class="">
-                    <p class="text-lg">{{ user.username }}</p>
+                    <p class="text-lg">{{ user.username|length > 20 ? user.username|slice(0, 20) ~ '...' : user.username }}</p>
                 </div>
                 <div class="">
                     <p>{{ user.email }}</p>
@@ -57,6 +60,9 @@
             </div>
         </div>
         {% endfor %}
+        {% if posts|length == 0 %}
+            <p class="text-center m-auto text-2xl font-bold">Vous n'avez pas encore de produit en vente</p>
+        {% endif %}
     </div>
 </section>
 

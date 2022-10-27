@@ -21,6 +21,9 @@
 <section id="register" class="bg-white">
     {{ form_start(editForm) }}
         <h2 class="mx-auto font-bold opacity-40 text-2xl">Éditer le profil de {{ user.firstname }} {{ user.lastname }}</h2>
+        {{ form_row(editForm.image,{
+			label: 'Picture'
+		}) }}
         {{ form_row(editForm.email,{
 			label: 'Email'
 		}) }}
@@ -28,7 +31,8 @@
 			label: 'Username'
 		}) }}
         {{ form_row(editForm.plainPassword,{
-			label: 'Password'
+			label: 'Password',
+            required: false
 		}) }}
         {{ form_row(editForm.firstname,{
 			label: 'First Name'
@@ -40,7 +44,7 @@
 			label: 'Adress'
 		}) }}
         <div class="flex justify-between">
-            <button class="rounded-full bg-white w-4/12 p-2 mx-auto transition-all hover:bg-primary border-2 border-primary" onclick="doIt(e);">
+            <button class="rounded-full bg-white w-4/12 p-2 mx-auto transition-all hover:bg-primary border-2 border-primary" id="alexclick">
                 Annuler
             </button>
             <button class="rounded-full bg-secondary w-4/12 p-2 mx-auto transition-all hover:bg-primary" type="submit">
@@ -52,10 +56,11 @@
 
 <script>
 
-function doIt(e) {
+document.getElementById('alexclick').addEventListener('click', function(e) {
     e.preventDefault();
-    window.history.back();
-}
+    document.location.href = "{{ path('user_own') }}";
+});
+
 
 </script>
 
