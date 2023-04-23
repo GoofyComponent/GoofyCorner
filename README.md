@@ -1,7 +1,5 @@
 # GoofyCorner
 
-Ride wife, life good. Wife fight back! Kill wife! Wife gone. Think about wife. Regret…
-
 ## Installation
 
 1. docker compose up -d
